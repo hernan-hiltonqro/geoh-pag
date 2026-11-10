@@ -6,10 +6,10 @@ export const siteData = {
     location: "Querétaro, México"
   },
   team: [
-    { name: "Francisco Cardiel", role: "Dirección de Gestion", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" },
-    { name: "Laura Guillen", role: "Dirección de Capital Humano", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" },
-    { name: "Karla González", role: "Dirección de Finanzas", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" },
-    { name: "José Macedo", role: "Dirección de TI", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" }
+    { name: "Francisco Cardiel", role: "Dirección de Gestion", img: "https://thumbs.dreamstime.com/b/default-placeholder-businessman-half-length-portr-portrait-photo-avatar-man-gray-color-113622427.jpg?w=576" },
+    { name: "Laura Guillen", role: "Dirección de Capital Humano", img: "https://thumbs.dreamstime.com/b/default-placeholder-businessman-half-length-portr-portrait-photo-avatar-man-gray-color-113622427.jpg?w=576" },
+    { name: "Karla González", role: "Dirección de Finanzas", img: "https://thumbs.dreamstime.com/b/default-placeholder-businessman-half-length-portr-portrait-photo-avatar-man-gray-color-113622427.jpg?w=576" },
+    { name: "José Macedo", role: "Dirección de TI", img: "https://thumbs.dreamstime.com/b/default-placeholder-businessman-half-length-portr-portrait-photo-avatar-man-gray-color-113622427.jpg?w=576" }
   ],
   portfolio: [
     { 

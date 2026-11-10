@@ -115,31 +115,7 @@ export const InvestorsSection = () => {
       </section>
 
       {/* 3. CTA Expansión (Formato Banner Panorámico y Compacto) */}
-      <section className="py-16 sm:py-20 bg-[#2E2F32] mt-auto border-t border-[#767980]/20">
-        <div className="max-w-7xl mx-auto px-6">
-          <FadeIn className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
-            
-            <div className="max-w-3xl">
-              <h2 className="text-4xl sm:text-5xl font-serif leading-tight text-[#F8F9FA] mb-4">
-                El momento de <span className="italic text-[#F8F9FA]/60 font-light">dar el siguiente paso.</span>
-              </h2>
-              <p className="text-lg sm:text-xl text-[#F8F9FA]/70 font-light leading-relaxed">
-                Inicie el proceso de afiliación y descubra cómo nuestra gestión operativa puede maximizar el valor de su activo.
-              </p>
-            </div>
-            
-            <div className="flex-shrink-0 w-full lg:w-auto">
-              <Link 
-                to="/contacto" 
-                className="block text-center lg:inline-block bg-[#CF6343] hover:bg-[#963E27] px-10 py-5 sm:py-6 text-base uppercase tracking-[0.2em] font-medium text-white transition-all duration-300 shadow-md hover:shadow-lg"
-              >
-                Solicitar diagnóstico
-              </Link>
-            </div>
-
-          </FadeIn>
-        </div>
-      </section>
+      
 
     </div>
   );

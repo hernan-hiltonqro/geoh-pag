@@ -214,33 +214,36 @@ export const ServicesSection = () => {
       {/* ==========================================
           BLOQUE 3: CIERRE / CTA (Banner Compacto)
           ========================================== */}
-      <section className="py-12 sm:py-14 bg-[#2E2F32] mt-auto border-t border-[#767980]/20">
-        <div className="max-w-6xl mx-auto px-6">
-          <FadeIn className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-            <div className="max-w-2xl border-l-2 border-[#CF6343] pl-6">
-              <h2 className="text-2xl sm:text-3xl font-serif leading-snug text-[#F8F9FA]">
-                Llevemos la gestión de su activo{" "}
-                <span className="italic font-light text-[#F8F9FA]/60">
-                  al siguiente nivel.
-                </span>
+     {/* CTA Servicios */}
+      <section className="py-16 sm:py-20 bg-[#2E2F32] mt-auto border-t border-[#767980]/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeIn className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+            
+            <div className="max-w-3xl">
+              <span className="text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-[#CF6343] block mb-4">
+                Gestión Integral
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#F8F9FA] leading-tight mb-4 tracking-tight">
+                Eleve los estándares operativos <br className="hidden sm:block" />
+                <span className="italic text-[#767980] font-light">de su propiedad.</span>
               </h2>
-              <p className="mt-3 text-base text-[#F8F9FA]/65 font-light leading-relaxed">
-                Estamos listos para transformar la información en decisiones de valor
-                y proteger la rentabilidad de su patrimonio.
+              <p className="text-base sm:text-lg text-[#F8F9FA]/70 font-light leading-relaxed">
+                Descubra cómo nuestra infraestructura de servicios y metodología de gestión pueden maximizar la rentabilidad y proteger el valor de su activo a largo plazo.
               </p>
             </div>
+            
+            <div className="flex-shrink-0 w-full lg:w-auto">
+              <Link 
+                to="/contacto" 
+                className="block text-center w-full bg-[#CF6343] hover:bg-[#963E27] px-8 py-4 sm:py-5 text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-white transition-colors duration-300 shadow-md"
+              >
+                Evaluar mi operación
+              </Link>
+            </div>
 
-            <Link
-              to="/contacto"
-              className="group flex-shrink-0 inline-flex items-center justify-center gap-3 border border-[#F8F9FA]/40 px-8 py-4 text-sm uppercase tracking-[0.2em] text-[#F8F9FA] transition-all duration-300 hover:border-[#F8F9FA] hover:bg-[#F8F9FA] hover:text-[#2E2F32]"
-            >
-              Solicitar diagnóstico
-              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </Link>
           </FadeIn>
         </div>
       </section>
-
     </div>
   );
 };

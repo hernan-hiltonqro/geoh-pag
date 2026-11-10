@@ -92,7 +92,7 @@ export const LegacySection = () => {
             <div>
               <span className="text-lg uppercase tracking-[0.2em] font-bold text-[#CF6343] block mb-6">Nuestro Propósito</span>
               <h2 className="text-5xl sm:text-6xl lg:text-7xl font-serif text-[#151617] leading-[1.05]">
-                El legado no se conserva <span className="italic text-[#767980]">congelándolo.</span>
+                El legado se protege <span className="italic text-[#767980]">evolucionando.</span>
               </h2>
             </div>
             <div className="lg:pt-6">
@@ -295,33 +295,40 @@ export const LegacySection = () => {
       </section>
 
       {/* 6. CTA Legado (Compacto, fondo claro) */}
-      <section className="py-12 sm:py-14 bg-[#F8F9FA] border-t border-[#767980]/20">
-        <div className="max-w-6xl mx-auto px-6">
-          <FadeIn className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-12">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl sm:text-5xl font-serif leading-snug text-[#2E2F32]">
-                Su visión construyó este legado.{" "}
-                <span className="italic font-light text-[#767980]">
+      {/* 6. CTA Legado (Contextual y Alineado) */}
+      <section className="py-16 sm:py-20 bg-[#F8F9FA] border-t border-[#767980]/20">
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeIn className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
+            
+            <div className="max-w-3xl">
+              <span className="text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-[#CF6343] block mb-4">
+                Continuidad Operativa
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#151617] leading-tight mb-4 tracking-tight">
+                Su visión construyó este legado. <br className="hidden sm:block" />
+                <span className="italic text-[#767980] font-light">
                   Nuestra gestión lo proyecta al futuro.
                 </span>
               </h2>
-              <p className="mt-3 text-xl text-[#2E2F32]/70 font-light leading-relaxed text-justify">
+              <p className="text-base sm:text-lg text-[#767980] font-light leading-relaxed">
                 Si es propietario o responsable del activo, conversemos sobre cómo
                 institucionalizar la operación y asegurar la rentabilidad para las
                 siguientes generaciones.
               </p>
             </div>
 
-            <Link
-              to="/contacto"
-              className="flex-shrink-0 text-center bg-[#2E2F32] hover:bg-[#CF6343] px-8 py-4 text-sm uppercase tracking-[0.2em] font-medium text-[#F8F9FA] transition-colors duration-300"
-            >
-              Iniciar conversación
-            </Link>
+            <div className="flex-shrink-0 w-full lg:w-auto">
+              <Link
+                to="/contacto"
+                className="block text-center w-full bg-[#151617] hover:bg-[#CF6343] px-8 py-4 sm:py-5 text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-white transition-colors duration-300 shadow-md"
+              >
+                Iniciar conversación
+              </Link>
+            </div>
+
           </FadeIn>
         </div>
       </section>
-
     </div>
   );
 };
