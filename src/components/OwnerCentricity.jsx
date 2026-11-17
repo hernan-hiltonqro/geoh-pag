@@ -1,306 +1,309 @@
-import { useId, useState } from 'react';
+import { useState, useEffect } from 'react';
 
-/*
-  Owner Centricity — diagrama de Euler interactivo.
-  Estilo Original (Negro/Terracota) con líneas de muy baja opacidad para un aspecto más limpio.
-*/
-
-const purpose = 'Creamos valor para el propietario hoy y a largo plazo.';
+const purpose = 'Generamos valor para el propietario en el corto y en el largo plazo.';
 
 const stages = [
-  { title: 'Entendemos', desc: 'El negocio y su entorno.' },
-  { title: 'Visualizamos', desc: 'El potencial y la estrategia.' },
-  { title: 'Ejecutamos', desc: 'La operación y los resultados.' },
-  { title: 'Disciplina y armonía', desc: 'Gestión financiera, equilibrio y sostenibilidad.' },
-  { title: 'Simplificamos procesos', desc: 'Con tecnología e innovación.' },
+  { title: 'Diagnóstico', desc: 'El hotel y su mercado.' },
+  { title: 'Estrategia', desc: 'Potencial, metas y prioridades.' },
+  { title: 'Ejecución', desc: 'Operación diaria y resultados.' },
+  { title: 'Control financiero', desc: 'Presupuesto, flujo y sostenibilidad.' },
+  { title: 'Mejora continua', desc: 'Procesos más simples con apoyo de tecnología.' },
 ];
 
-/* Escala base del diagrama */
-const D = 85; 
-const RP = 145; 
-const CX = 600;
-const CY = 400;
-const W = 1200;
-const H = 790;
-const ORBIT = 275; 
-
-// Textos interactivos de los 4 pilares
 const pillars = [
   {
-    title: 'Centricidad en Legado',
-    desc: 'Preservamos la visión y la esencia, construyendo valor sostenible para las futuras generaciones.',
-    dx: 0,
-    dy: -D,
-    label: { x: CX, y: 225, lines: ['Centricidad', 'en Legado'] },
+    title: 'Centricidad en la Continuidad',
+    shortLines: ['Centricidad en', 'la Continuidad'],
+    desc: 'Preservamos la identidad del hotel y lo preparamos para la siguiente generación.',
+    angle: -90, // Arriba
   },
   {
-    title: 'Centricidad en el Activo',
-    desc: 'Protegemos y maximizamos el valor del activo con una gestión eficiente, responsable y orientada al largo plazo.',
-    dx: D,
-    dy: 0,
-    label: { x: 775, y: CY, lines: ['Centricidad', 'en el Activo'] },
+    title: 'Centricidad en el Valor del activo',
+    shortLines: ['Centricidad en el', 'Valor del activo'],
+    desc: 'Mantenimiento y reinversión planeados para conservar y aumentar el valor del inmueble.',
+    angle: 0, // Derecha
   },
   {
-    title: 'Centricidad en Clientes',
-    desc: 'Brindamos experiencias memorables que generan satisfacción, lealtad y valor sostenible para el negocio.',
-    dx: 0,
-    dy: D,
-    label: { x: CX, y: 575, lines: ['Centricidad', 'en Clientes'] },
+    title: 'Centricidad en los Clientes',
+    shortLines: ['Centricidad en', 'los Clientes'],
+    desc: 'Satisfacción medida y atendida, porque un huésped que regresa reduce el costo de venta.',
+    angle: 90, // Abajo
   },
   {
-    title: 'Centricidad en Talento',
-    desc: 'Desarrollamos profesionales que gestionan, no solo ejecutan, impulsando una cultura de aprendizaje y crecimiento continuo.',
-    dx: -D,
-    dy: 0,
-    label: { x: 425, y: CY, lines: ['Centricidad', 'en Talento'] },
+    title: 'Centricidad en el Talento',
+    shortLines: ['Centricidad en', 'el Talento'],
+    desc: 'Gerentes capaces de leer indicadores, decidir y responder por sus resultados.',
+    angle: 180, // Izquierda
   },
 ];
 
-// Elemento central interactivo
-const centerElement = {
+const ownerData = {
   title: 'Centricidad en el Propietario',
-  desc: 'Todas nuestras decisiones operativas y estratégicas convergen en un único objetivo: proteger y maximizar el valor de su patrimonio.',
-  lines: ['Centricidad en', 'el Propietario']
-};
-
-const stagePos = (i) => {
-  const a = (i * 72 * Math.PI) / 180;
-  return { x: CX + ORBIT * Math.sin(a), y: CY - ORBIT * Math.cos(a) };
-};
-
-const labelStyle = (i) => {
-  const { x, y } = stagePos(i);
-  if (i === 0) return { left: x - 160, width: 320, bottom: H - (y - 25), textAlign: 'center' };
-  if (i === 1) return { left: x + 35, width: W - (x + 35), top: y - 12 };
-  if (i === 4) return { left: 0, width: x - 35, top: y - 12, textAlign: 'right' };
-  return { left: x - 130, width: 260, top: y + 25, textAlign: 'center' };
-};
-
-/* ---------- Diagrama ---------- */
-const Figure = ({ compact = false, hoveredPillar, setHoveredPillar }) => {
-  const haloId = `oc-halo-${useId().replace(/:/g, '')}`;
-  const dotR = compact ? 26 : 15; 
-  const dotFont = compact ? 28 : 16; 
-
-  return (
-    <svg
-      viewBox={compact ? '250 60 700 680' : `0 0 ${W} ${H}`}
-      width={compact ? undefined : W}
-      height={compact ? undefined : H}
-      className={compact ? 'relative block h-auto w-full' : 'relative block'}
-      aria-hidden="true"
-    >
-      <defs>
-        <radialGradient id={haloId}>
-          <stop offset="0" stopColor="#151617" stopOpacity="0.15" />
-          <stop offset="1" stopColor="#151617" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      {/* Órbitas decorativas centrales: OPACIDAD MUY REDUCIDA */}
-      <ellipse cx={CX} cy={CY} rx="300" ry="180" transform={`rotate(-28 ${CX} ${CY})`} fill="none" stroke="rgba(21, 22, 23, 0.06)" strokeWidth="1" />
-      <ellipse cx={CX} cy={CY} rx="300" ry="180" transform={`rotate(28 ${CX} ${CY})`} fill="none" stroke="rgba(21, 22, 23, 0.06)" strokeWidth="1" />
-      
-      {/* Órbita principal de etapas: OPACIDAD REDUCIDA */}
-      <circle cx={CX} cy={CY} r={ORBIT} fill="none" stroke="rgba(21, 22, 23, 0.2)" strokeWidth="1" strokeDasharray="4 6" />
-
-      {/* Pilares interactivos con líneas tenues */}
-      {pillars.map((p, idx) => {
-        const isHovered = hoveredPillar === idx;
-        return (
-          <g 
-            key={p.title}
-            onMouseEnter={() => !compact && setHoveredPillar(idx)}
-            onMouseLeave={() => !compact && setHoveredPillar(null)}
-            className={!compact ? "cursor-pointer transition-all duration-300" : ""}
-            style={{ opacity: hoveredPillar !== null && !isHovered && !compact ? 0.2 : 1 }}
-          >
-            <circle
-              cx={CX + p.dx}
-              cy={CY + p.dy}
-              r={RP}
-              fill={isHovered && !compact ? "rgba(21, 22, 23, 0.04)" : "rgba(21, 22, 23, 0.01)"}
-              stroke={isHovered && !compact ? "rgba(21, 22, 23, 0.6)" : "rgba(21, 22, 23, 0.12)"}
-              strokeWidth={isHovered && !compact ? "2" : "1"}
-              className="transition-all duration-300"
-            />
-            {!compact && p.label.lines.map((line, k) => (
-              <text
-                key={`${p.title}-${k}`}
-                x={p.label.x}
-                y={p.label.y + (k - (p.label.lines.length - 1) / 2) * 20}
-                dy="0.35em"
-                textAnchor="middle"
-                fontSize="18"
-                className="font-serif tracking-wide transition-all duration-300 font-bold"
-                style={{ fill: isHovered ? '#CF6343' : '#151617' }}
-              >
-                {line}
-              </text>
-            ))}
-          </g>
-        );
-      })}
-
-      {/* NÚCLEO INTERACTIVO: Centricidad en el Propietario */}
-      {!compact && (
-        <g
-          onMouseEnter={() => setHoveredPillar('center')}
-          onMouseLeave={() => setHoveredPillar(null)}
-          className="cursor-pointer transition-all duration-300"
-          style={{ opacity: hoveredPillar !== null && hoveredPillar !== 'center' ? 0.2 : 1 }}
-        >
-          {/* Zona de hover invisible/sutil en el centro */}
-          <circle
-            cx={CX}
-            cy={CY}
-            r={85}
-            fill={hoveredPillar === 'center' ? "rgba(21, 22, 23, 0.06)" : "transparent"}
-            className="transition-all duration-300"
-          />
-          {centerElement.lines.map((line, k) => (
-            <text
-              key={line}
-              x={CX}
-              y={CY + (k - 0.5) * 26}
-              dy="0.35em"
-              textAnchor="middle"
-              fontSize="22"
-              className="font-serif font-black transition-all duration-300"
-              style={{ fill: hoveredPillar === 'center' ? '#CF6343' : '#151617' }}
-            >
-              {line}
-            </text>
-          ))}
-        </g>
-      )}
-
-      {/* Puntos y números de las etapas: RESTAURADOS A NEGRO SÓLIDO */}
-      {stages.map((s, i) => {
-        const { x, y } = stagePos(i);
-        return (
-          <g key={s.title}>
-            <circle cx={x} cy={y} r={dotR * 2.2} fill={`url(#${haloId})`} />
-            <circle cx={x} cy={y} r={dotR} style={{ fill: '#151617' }} />
-            <text
-              x={x}
-              y={y}
-              dy="0.35em"
-              textAnchor="middle"
-              fontSize={dotFont}
-              fontWeight="700"
-              style={{ fill: '#FFFFFF' }}
-            >
-              {i + 1}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
+  desc: 'Todas las decisiones operativas, comerciales y financieras convergen en un único fin: proteger su patrimonio y maximizar su utilidad.',
 };
 
 export const OwnerCentricity = () => {
-  const [hoveredPillar, setHoveredPillar] = useState(null);
+  const [activeStage, setActiveStage] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [selectedPillar, setSelectedPillar] = useState('owner'); // 'owner' o índice 0-3
+
+  // Animación automática de las 5 etapas
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveStage((prev) => (prev + 1) % stages.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const activePillarInfo =
+    selectedPillar === 'owner' ? ownerData : pillars[selectedPillar];
 
   return (
     <section
       aria-labelledby="oc-title"
-      className="relative isolate overflow-hidden py-32 w-full bg-white border-y border-[#767980]/20"
+      className="bg-[#151617] py-24 lg:py-32 overflow-hidden border-y border-[#767980]/20 text-[#F8F9FA]"
     >
-      <div className="absolute inset-0 -z-20 w-full h-full bg-[radial-gradient(circle_at_center,rgba(21,22,23,0.02)_0%,transparent_80%)]"></div>
-
-      <div className="mx-auto max-w-7xl px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-12">
         
-        {/* ENCABEZADO ORIGINAL */}
-        <header className="mx-auto mb-20 max-w-3xl text-center xl:mb-16">
-          <p className="mb-6 text-xl font-bold text-[#CF6343] tracking-[0.2em] uppercase">Modelo de Gestión</p>
-          <h2 id="oc-title" className="font-serif text-4xl sm:text-5xl lg:text-6xl leading-tight text-[#151617]">
-            El ecosistema del valor
-          </h2>
-          <div
-            aria-hidden="true"
-            className="mx-auto mt-8 h-[2px] w-48"
-            style={{ background: 'linear-gradient(90deg, transparent, #151617, transparent)' }}
-          />
-          <p className="mt-10 font-serif text-2xl sm:text-3xl italic text-[#2E2F32]">{purpose}</p>
-          <p className="mt-6 text-lg sm:text-xl leading-relaxed text-[#767980]">
-            Cinco etapas guían nuestra gestión, y cuatro pilares se unen en el centro, en torno al propietario.
-          </p>
-        </header>
-
-        {/* ===== ≥ 1280 px: Diagrama interactivo ===== */}
-        <div 
-          className="relative mx-auto hidden xl:block origin-top" 
-          style={{ width: W, height: H, transform: 'scale(0.85)', marginBottom: '-118px' }}
-        >
-          <Figure 
-            hoveredPillar={hoveredPillar} 
-            setHoveredPillar={setHoveredPillar} 
-          />
-
-          {/* Modal / Tooltip dinámico: RESTAURADO A NEGRO */}
-          {hoveredPillar !== null && (
-            <div 
-              className="absolute pointer-events-none z-50 bg-[#151617] p-6 rounded shadow-2xl transition-opacity duration-300 max-w-sm text-center"
-              style={{
-                top: hoveredPillar === 'center' ? CY - 20 : CY + pillars[hoveredPillar].dy - 20,
-                left: hoveredPillar === 'center' ? CX : CX + pillars[hoveredPillar].dx,
-                transform: 'translate(-50%, -50%)'
-              }}
-            >
-              <h4 className="font-serif text-2xl text-[#CF6343] mb-3">
-                {hoveredPillar === 'center' ? centerElement.title : pillars[hoveredPillar].title}
-              </h4>
-              <p className="text-base text-white leading-relaxed">
-                {hoveredPillar === 'center' ? centerElement.desc : pillars[hoveredPillar].desc}
-              </p>
-            </div>
-          )}
-
-          <h3 className="sr-only">Etapas de gestión</h3>
-          <ol role="list" aria-label="Etapas de gestión">
-            {stages.map((s, i) => (
-              <li key={s.title} className="absolute transition-opacity duration-300" 
-                  style={{...labelStyle(i), opacity: hoveredPillar !== null ? 0.15 : 1}}>
-                <h4 className="font-serif text-2xl leading-tight text-[#151617] mb-2 font-bold">
-                  <span className="sr-only">Etapa {i + 1}: </span>
-                  {s.title}
-                </h4>
-                <p className="text-base leading-relaxed text-[#2E2F32] font-medium">{s.desc}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-
-        {/* ===== < 1280 px: Versión Móvil/Compacta ===== */}
-        <div className="xl:hidden">
-          <div className="relative mx-auto w-full max-w-[420px]">
-            <Figure compact hoveredPillar={null} setHoveredPillar={() => {}} />
+        {/* =========================================
+            COLUMNA IZQUIERDA: Textos Originales + Lista de 5 Etapas
+        ============================================= */}
+        <div className="w-full lg:w-5/12 flex flex-col justify-center relative z-10">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-8 h-[1px] bg-[#CF6343]"></div>
+            <span className="text-[#CF6343] text-xs font-bold tracking-[0.2em] uppercase">
+              Modelo de gestión
+            </span>
           </div>
 
-          <h3 className="mt-24 text-center font-serif text-3xl sm:text-4xl text-[#151617]">
-            Cinco etapas de gestión
-          </h3>
-          <ol role="list" className="mx-auto mt-12 grid max-w-4xl gap-10 md:grid-cols-2 md:gap-x-14">
-            {stages.map((s, i) => (
-              <li key={s.title} className="flex gap-5 items-start">
-                <span
-                  aria-hidden="true"
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#151617] text-xl font-bold text-white shadow-md"
+          <h2
+            id="oc-title"
+            className="text-4xl sm:text-5xl lg:text-6xl font-serif text-[#F8F9FA] mb-4 leading-tight tracking-tight"
+          >
+            El propietario al centro
+          </h2>
+
+          <p className="text-xl sm:text-2xl font-serif italic text-[#CF6343] mb-6 leading-snug">
+            {purpose}
+          </p>
+
+          <p className="text-[#F8F9FA]/70 text-base font-light mb-10 leading-relaxed">
+            Cinco etapas ordenan la gestión. Cuatro pilares la sostienen, alrededor de los intereses del propietario.
+          </p>
+
+          {/* Lista Vertical Sincronizada de las 5 Etapas */}
+          <ol
+            aria-label="Etapas de gestión"
+            className="space-y-4 border-l border-[#767980]/20 pl-6"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {stages.map((stage, i) => {
+              const isActive = i === activeStage;
+              return (
+                <li
+                  key={stage.title}
+                  onClick={() => setActiveStage(i)}
+                  onMouseEnter={() => setActiveStage(i)}
+                  className="relative cursor-pointer group transition-all duration-300"
                 >
-                  {i + 1}
-                </span>
-                <div>
-                  <h4 className="font-serif text-2xl leading-tight text-[#151617] mb-2 font-bold">
-                    <span className="sr-only">Etapa {i + 1}: </span>
-                    {s.title}
-                  </h4>
-                  <p className="text-base leading-relaxed text-[#2E2F32]">{s.desc}</p>
-                </div>
-              </li>
-            ))}
+                  {/* Indicador circular en la línea */}
+                  <span
+                    className={`absolute -left-[29.5px] top-1.5 w-2.5 h-2.5 rounded-full border transition-all duration-300 ${
+                      isActive
+                        ? 'border-[#CF6343] bg-[#CF6343] shadow-[0_0_10px_rgba(207,99,67,0.8)] scale-110'
+                        : 'border-[#767980] bg-[#151617] group-hover:border-[#CF6343]/60'
+                    }`}
+                  />
+
+                  <div className="flex items-baseline gap-3">
+                    <span
+                      className={`text-xs font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${
+                        isActive
+                          ? 'text-[#CF6343]'
+                          : 'text-[#767980] group-hover:text-[#F8F9FA]/80'
+                      }`}
+                    >
+                      0{i + 1} · {stage.title}
+                    </span>
+                  </div>
+
+                  <p
+                    className={`text-sm font-light mt-1 transition-all duration-300 ${
+                      isActive
+                        ? 'text-[#F8F9FA]/90 opacity-100'
+                        : 'text-[#767980]/60 opacity-75'
+                    }`}
+                  >
+                    {stage.desc}
+                  </p>
+                </li>
+              );
+            })}
           </ol>
+
+          <p className="mt-10 text-[10px] text-[#767980] uppercase tracking-[0.2em]">
+            Pase el cursor sobre cada etapa o pilar para ver el detalle.
+          </p>
+        </div>
+
+        {/* =========================================
+            COLUMNA DERECHA: Diagrama Orbital (5 Etapas + 4 Pilares + Propietario)
+        ============================================= */}
+        <div
+          className="w-full lg:w-7/12 flex flex-col items-center justify-center"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div className="relative w-full max-w-[580px] aspect-square">
+            
+            {/* Órbitas y Líneas SVG */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 600 600">
+              {/* Órbita exterior punteada (5 Etapas) */}
+              <circle
+                cx="300"
+                cy="300"
+                r="252"
+                fill="none"
+                stroke="rgba(118, 121, 128, 0.2)"
+                strokeDasharray="4 6"
+              />
+              {/* Órbita intermedia (4 Pilares) */}
+              <circle
+                cx="300"
+                cy="300"
+                r="165"
+                fill="none"
+                stroke="rgba(207, 99, 67, 0.15)"
+              />
+
+              {/* Líneas radiales dinámicas hacia las 5 etapas */}
+              {stages.map((_, i) => {
+                const angle = (i * 72 - 90) * (Math.PI / 180);
+                const isActive = i === activeStage;
+                return (
+                  <line
+                    key={`line-stage-${i}`}
+                    x1="300"
+                    y1="300"
+                    x2={300 + Math.cos(angle) * 252}
+                    y2={300 + Math.sin(angle) * 252}
+                    stroke={isActive ? '#CF6343' : 'rgba(118, 121, 128, 0.12)'}
+                    strokeWidth={isActive ? 1.5 : 1}
+                    className="transition-all duration-500"
+                  />
+                );
+              })}
+            </svg>
+
+            {/* NÚCLEO CENTRAL: Centricidad en el Propietario */}
+            <button
+              type="button"
+              onClick={() => setSelectedPillar('owner')}
+              onMouseEnter={() => setSelectedPillar('owner')}
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36%] h-[36%] rounded-full border flex flex-col items-center justify-center text-center p-4 z-20 transition-all duration-300 cursor-pointer ${
+                selectedPillar === 'owner'
+                  ? 'bg-[#2E2F32] border-[#CF6343] shadow-[0_0_35px_rgba(207,99,67,0.2)]'
+                  : 'bg-[#151617] border-[#CF6343]/40 hover:border-[#CF6343]'
+              }`}
+            >
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold text-[#CF6343] mb-1">
+                Núcleo
+              </span>
+              <span className="font-serif text-sm sm:text-lg lg:text-xl font-bold text-[#F8F9FA] leading-tight">
+                Centricidad en <br /> el Propietario
+              </span>
+            </button>
+
+            {/* ANILLO INTERMEDIO: Los 4 Pilares */}
+            {pillars.map((pillar, idx) => {
+              const rad = (pillar.angle * Math.PI) / 180;
+              const radiusPct = 27.5; // 165 / 600
+              const left = `${50 + Math.cos(rad) * radiusPct}%`;
+              const top = `${50 + Math.sin(rad) * radiusPct}%`;
+              const isSelected = selectedPillar === idx;
+
+              return (
+                <button
+                  key={pillar.title}
+                  type="button"
+                  onClick={() => setSelectedPillar(idx)}
+                  onMouseEnter={() => setSelectedPillar(idx)}
+                  style={{ left, top, transform: 'translate(-50%, -50%)' }}
+                  className={`absolute z-20 px-3 py-2 rounded-sm border text-center transition-all duration-300 cursor-pointer backdrop-blur-sm ${
+                    isSelected
+                      ? 'bg-[#2E2F32] border-[#CF6343] text-[#F8F9FA] shadow-[0_0_20px_rgba(207,99,67,0.25)] scale-105'
+                      : 'bg-[#151617]/90 border-[#767980]/30 text-[#F8F9FA]/80 hover:border-[#CF6343]/60'
+                  }`}
+                >
+                  <span className="block font-serif text-[10px] sm:text-xs leading-tight whitespace-nowrap">
+                    {pillar.shortLines[0]} <br />
+                    <span className={isSelected ? 'text-[#CF6343] italic' : 'text-[#767980]'}>
+                      {pillar.shortLines[1]}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+
+            {/* ÓRBITA EXTERIOR: Las 5 Etapas Numeradas (1 a 5) */}
+            {stages.map((stage, i) => {
+              const rad = (i * 72 - 90) * (Math.PI / 180);
+              const radiusPct = 42; // 252 / 600
+              const left = `${50 + Math.cos(rad) * radiusPct}%`;
+              const top = `${50 + Math.sin(rad) * radiusPct}%`;
+              const isActive = i === activeStage;
+
+              return (
+                <div
+                  key={`orbit-stage-${stage.title}`}
+                  onClick={() => setActiveStage(i)}
+                  onMouseEnter={() => setActiveStage(i)}
+                  style={{ left, top, transform: 'translate(-50%, -50%)' }}
+                  className="absolute z-30 flex flex-col items-center cursor-pointer group"
+                >
+                  {/* Círculo numerado */}
+                  <div
+                    className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center font-sans text-xs sm:text-sm font-bold transition-all duration-500 ${
+                      isActive
+                        ? 'bg-[#CF6343] border-[#CF6343] text-white shadow-[0_0_20px_rgba(207,99,67,0.6)] scale-110'
+                        : 'bg-[#151617] border-[#767980]/40 text-[#767980] group-hover:border-[#CF6343]'
+                    }`}
+                  >
+                    {i + 1}
+                  </div>
+
+                  {/* Título de la etapa debajo del círculo */}
+                  <span
+                    className={`mt-1.5 px-2 py-0.5 rounded bg-[#151617]/85 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-300 ${
+                      isActive ? 'text-[#F8F9FA]' : 'text-[#767980]'
+                    }`}
+                  >
+                    {stage.title}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Tarjeta inferior con el detalle exacto del Pilar o Núcleo seleccionado */}
+          <div className="w-full max-w-[580px] mt-6 bg-[#2E2F32]/70 border border-[#767980]/20 p-5 sm:p-6 rounded-sm transition-all duration-300">
+            <div className="flex items-center justify-between gap-4 mb-1.5">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#CF6343]">
+                {selectedPillar === 'owner' ? 'Propósito Central' : 'Pilar Estratégico'}
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.15em] text-[#767980]">
+                Etapa activa: 0{activeStage + 1} · {stages[activeStage].title}
+              </span>
+            </div>
+            <h4 className="font-serif text-lg sm:text-xl text-[#F8F9FA] mb-1">
+              {activePillarInfo.title}
+            </h4>
+            <p className="text-sm text-[#F8F9FA]/75 font-light leading-relaxed">
+              {activePillarInfo.desc}
+            </p>
+          </div>
         </div>
 
       </div>
