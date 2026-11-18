@@ -45,13 +45,7 @@ export const Hero = () => {
         <div className="flex flex-col justify-center lg:col-span-7">
           <FadeIn>
 
-            {/* IDENTIDAD GEOH */}
-            <div className="mb-5 flex items-center gap-3">
-              <span className="h-7 w-[3px] bg-[#CF6343]" />
-              <span className="font-serif text-2xl tracking-wide text-[#F8F9FA]">
-                GEOH
-              </span>
-            </div>
+            
 
             {/* TÍTULO */}
             <h1
