@@ -64,7 +64,7 @@ export const OwnerCentricity = () => {
       aria-labelledby="oc-title"
       className="bg-[#151617] py-24 lg:py-32 overflow-hidden border-y border-[#767980]/20 text-[#F8F9FA]"
     >
-      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-10">
         
         {/* =========================================
             COLUMNA IZQUIERDA: Textos Originales + Lista de 5 Etapas
@@ -88,14 +88,14 @@ export const OwnerCentricity = () => {
             {purpose}
           </p>
 
-          <p className="text-[#F8F9FA]/70 text-base font-light mb-10 leading-relaxed">
+          <p className="text-[#F8F9FA]/85 text-base sm:text-lg font-light mb-10 leading-relaxed">
             Cinco etapas ordenan la gestión. Cuatro pilares la sostienen, alrededor de los intereses del propietario.
           </p>
 
           {/* Lista Vertical Sincronizada de las 5 Etapas */}
           <ol
             aria-label="Etapas de gestión"
-            className="space-y-4 border-l border-[#767980]/20 pl-6"
+            className="space-y-5 border-l border-[#767980]/30 pl-6"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
@@ -110,19 +110,19 @@ export const OwnerCentricity = () => {
                 >
                   {/* Indicador circular en la línea */}
                   <span
-                    className={`absolute -left-[29.5px] top-1.5 w-2.5 h-2.5 rounded-full border transition-all duration-300 ${
+                    className={`absolute -left-[30px] top-1.5 w-3 h-3 rounded-full border transition-all duration-300 ${
                       isActive
-                        ? 'border-[#CF6343] bg-[#CF6343] shadow-[0_0_10px_rgba(207,99,67,0.8)] scale-110'
-                        : 'border-[#767980] bg-[#151617] group-hover:border-[#CF6343]/60'
+                        ? 'border-[#CF6343] bg-[#CF6343] shadow-[0_0_12px_rgba(207,99,67,0.9)] scale-110'
+                        : 'border-[#9CA3AF] bg-[#151617] group-hover:border-[#CF6343]'
                     }`}
                   />
 
                   <div className="flex items-baseline gap-3">
                     <span
-                      className={`text-xs font-bold tracking-[0.15em] uppercase transition-colors duration-300 ${
+                      className={`text-sm font-bold tracking-[0.14em] uppercase transition-colors duration-300 ${
                         isActive
                           ? 'text-[#CF6343]'
-                          : 'text-[#767980] group-hover:text-[#F8F9FA]/80'
+                          : 'text-[#F8F9FA]/80 group-hover:text-white'
                       }`}
                     >
                       0{i + 1} · {stage.title}
@@ -130,10 +130,10 @@ export const OwnerCentricity = () => {
                   </div>
 
                   <p
-                    className={`text-sm font-light mt-1 transition-all duration-300 ${
+                    className={`text-base font-light mt-1 transition-all duration-300 ${
                       isActive
-                        ? 'text-[#F8F9FA]/90 opacity-100'
-                        : 'text-[#767980]/60 opacity-75'
+                        ? 'text-white'
+                        : 'text-[#F8F9FA]/60 group-hover:text-[#F8F9FA]/85'
                     }`}
                   >
                     {stage.desc}
@@ -143,7 +143,7 @@ export const OwnerCentricity = () => {
             })}
           </ol>
 
-          <p className="mt-10 text-[10px] text-[#767980] uppercase tracking-[0.2em]">
+          <p className="mt-10 text-xs text-[#F8F9FA]/60 uppercase tracking-[0.18em]">
             Pase el cursor sobre cada etapa o pilar para ver el detalle.
           </p>
         </div>
@@ -156,7 +156,7 @@ export const OwnerCentricity = () => {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="relative w-full max-w-[580px] aspect-square">
+          <div className="relative w-full max-w-[640px] aspect-square">
             
             {/* Órbitas y Líneas SVG */}
             <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 600 600">
@@ -166,8 +166,9 @@ export const OwnerCentricity = () => {
                 cy="300"
                 r="252"
                 fill="none"
-                stroke="rgba(118, 121, 128, 0.2)"
-                strokeDasharray="4 6"
+                stroke="rgba(248, 249, 250, 0.16)"
+                strokeWidth="1.2"
+                strokeDasharray="5 6"
               />
               {/* Órbita intermedia (4 Pilares) */}
               <circle
@@ -175,7 +176,8 @@ export const OwnerCentricity = () => {
                 cy="300"
                 r="165"
                 fill="none"
-                stroke="rgba(207, 99, 67, 0.15)"
+                stroke="rgba(207, 99, 67, 0.25)"
+                strokeWidth="1.2"
               />
 
               {/* Líneas radiales dinámicas hacia las 5 etapas */}
@@ -189,8 +191,8 @@ export const OwnerCentricity = () => {
                     y1="300"
                     x2={300 + Math.cos(angle) * 252}
                     y2={300 + Math.sin(angle) * 252}
-                    stroke={isActive ? '#CF6343' : 'rgba(118, 121, 128, 0.12)'}
-                    strokeWidth={isActive ? 1.5 : 1}
+                    stroke={isActive ? '#CF6343' : 'rgba(248, 249, 250, 0.12)'}
+                    strokeWidth={isActive ? 2 : 1}
                     className="transition-all duration-500"
                   />
                 );
@@ -202,16 +204,16 @@ export const OwnerCentricity = () => {
               type="button"
               onClick={() => setSelectedPillar('owner')}
               onMouseEnter={() => setSelectedPillar('owner')}
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36%] h-[36%] rounded-full border flex flex-col items-center justify-center text-center p-4 z-20 transition-all duration-300 cursor-pointer ${
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[35%] h-[35%] rounded-full border-2 flex flex-col items-center justify-center text-center p-4 z-20 transition-all duration-300 cursor-pointer ${
                 selectedPillar === 'owner'
-                  ? 'bg-[#2E2F32] border-[#CF6343] shadow-[0_0_35px_rgba(207,99,67,0.2)]'
-                  : 'bg-[#151617] border-[#CF6343]/40 hover:border-[#CF6343]'
+                  ? 'bg-[#26282B] border-[#CF6343] shadow-[0_0_40px_rgba(207,99,67,0.3)]'
+                  : 'bg-[#1E2022] border-[#CF6343]/60 hover:border-[#CF6343]'
               }`}
             >
-              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold text-[#CF6343] mb-1">
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold text-[#CF6343] mb-1">
                 Núcleo
               </span>
-              <span className="font-serif text-sm sm:text-lg lg:text-xl font-bold text-[#F8F9FA] leading-tight">
+              <span className="font-serif text-base sm:text-xl lg:text-2xl font-bold text-white leading-tight">
                 Centricidad en <br /> el Propietario
               </span>
             </button>
@@ -231,15 +233,15 @@ export const OwnerCentricity = () => {
                   onClick={() => setSelectedPillar(idx)}
                   onMouseEnter={() => setSelectedPillar(idx)}
                   style={{ left, top, transform: 'translate(-50%, -50%)' }}
-                  className={`absolute z-20 px-3 py-2 rounded-sm border text-center transition-all duration-300 cursor-pointer backdrop-blur-sm ${
+                  className={`absolute z-20 px-3.5 py-2.5 rounded-md border text-center transition-all duration-300 cursor-pointer shadow-lg ${
                     isSelected
-                      ? 'bg-[#2E2F32] border-[#CF6343] text-[#F8F9FA] shadow-[0_0_20px_rgba(207,99,67,0.25)] scale-105'
-                      : 'bg-[#151617]/90 border-[#767980]/30 text-[#F8F9FA]/80 hover:border-[#CF6343]/60'
+                      ? 'bg-[#2C2E32] border-[#CF6343] text-white shadow-[0_0_24px_rgba(207,99,67,0.35)] scale-105'
+                      : 'bg-[#1E2022] border-[#9CA3AF]/45 text-white hover:border-[#CF6343]'
                   }`}
                 >
-                  <span className="block font-serif text-[10px] sm:text-xs leading-tight whitespace-nowrap">
+                  <span className="block font-serif text-xs sm:text-sm font-medium leading-snug whitespace-nowrap">
                     {pillar.shortLines[0]} <br />
-                    <span className={isSelected ? 'text-[#CF6343] italic' : 'text-[#767980]'}>
+                    <span className={isSelected ? 'text-[#CF6343] italic font-semibold' : 'text-[#E5E7EB]'}>
                       {pillar.shortLines[1]}
                     </span>
                   </span>
@@ -265,19 +267,21 @@ export const OwnerCentricity = () => {
                 >
                   {/* Círculo numerado */}
                   <div
-                    className={`w-9 h-9 sm:w-11 sm:h-11 rounded-full border flex items-center justify-center font-sans text-xs sm:text-sm font-bold transition-all duration-500 ${
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 flex items-center justify-center font-sans text-sm sm:text-base font-bold transition-all duration-500 shadow-md ${
                       isActive
-                        ? 'bg-[#CF6343] border-[#CF6343] text-white shadow-[0_0_20px_rgba(207,99,67,0.6)] scale-110'
-                        : 'bg-[#151617] border-[#767980]/40 text-[#767980] group-hover:border-[#CF6343]'
+                        ? 'bg-[#CF6343] border-[#CF6343] text-white shadow-[0_0_24px_rgba(207,99,67,0.75)] scale-110'
+                        : 'bg-[#1E2022] border-[#9CA3AF]/60 text-white group-hover:border-[#CF6343]'
                     }`}
                   >
                     {i + 1}
                   </div>
 
-                  {/* Título de la etapa debajo del círculo */}
+                  {/* Etiqueta con alto contraste debajo del círculo */}
                   <span
-                    className={`mt-1.5 px-2 py-0.5 rounded bg-[#151617]/85 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.12em] whitespace-nowrap transition-colors duration-300 ${
-                      isActive ? 'text-[#F8F9FA]' : 'text-[#767980]'
+                    className={`mt-2 px-3 py-1 rounded-md border text-[11px] sm:text-xs font-bold uppercase tracking-[0.12em] whitespace-nowrap transition-all duration-300 shadow-md ${
+                      isActive
+                        ? 'bg-[#2C2E32] border-[#CF6343] text-white'
+                        : 'bg-[#1E2022] border-[#9CA3AF]/40 text-[#F8F9FA]/95 group-hover:border-[#CF6343]/70'
                     }`}
                   >
                     {stage.title}
@@ -288,19 +292,19 @@ export const OwnerCentricity = () => {
           </div>
 
           {/* Tarjeta inferior con el detalle exacto del Pilar o Núcleo seleccionado */}
-          <div className="w-full max-w-[580px] mt-6 bg-[#2E2F32]/70 border border-[#767980]/20 p-5 sm:p-6 rounded-sm transition-all duration-300">
-            <div className="flex items-center justify-between gap-4 mb-1.5">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#CF6343]">
+          <div className="w-full max-w-[640px] mt-8 bg-[#1E2022] border border-[#9CA3AF]/30 p-6 sm:p-7 rounded-md shadow-xl transition-all duration-300">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+              <span className="text-xs uppercase tracking-[0.2em] font-bold text-[#CF6343]">
                 {selectedPillar === 'owner' ? 'Propósito Central' : 'Pilar Estratégico'}
               </span>
-              <span className="text-[10px] uppercase tracking-[0.15em] text-[#767980]">
+              <span className="text-xs uppercase tracking-[0.15em] text-[#D1D5DB]">
                 Etapa activa: 0{activeStage + 1} · {stages[activeStage].title}
               </span>
             </div>
-            <h4 className="font-serif text-lg sm:text-xl text-[#F8F9FA] mb-1">
+            <h4 className="font-serif text-xl sm:text-2xl text-white mb-2">
               {activePillarInfo.title}
             </h4>
-            <p className="text-sm text-[#F8F9FA]/75 font-light leading-relaxed">
+            <p className="text-base text-[#F8F9FA]/90 font-light leading-relaxed">
               {activePillarInfo.desc}
             </p>
           </div>
